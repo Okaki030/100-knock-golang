@@ -13,10 +13,8 @@ func main() {
 
 	// 単語bi-gram
 	slice := strings.Split(str, " ")
-	i := 0
-	for i+2 <= len(slice) {
+	for i := 0; i+2 <= len(slice); i += 2 {
 		fmt.Println(slice[i : i+2])
-		i += 2
 	}
 
 	// 文字bi-gram
