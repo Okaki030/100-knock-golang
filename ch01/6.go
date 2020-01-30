@@ -24,6 +24,18 @@ func wordBiGram(strArray []string) []string {
 	return biGram
 }
 
+// スライスの中に含まれている場合true
+func containsStr(unionWords []string, searchWord string) bool {
+
+	for _, word := range unionWords {
+		if word == searchWord {
+			return true
+		}
+	}
+
+	return false
+}
+
 // スライスの中に含まれていない場合false
 func containsStrNot(unionWords []string, searchWord string) bool {
 
@@ -52,7 +64,8 @@ func removeDuplicate1(args []string) []string {
 // 和集合
 func union(x, y []string) []string {
 
-	unionWords := removeDuplicate1(x)
+	unionWords := make([]string, 0)
+	unionWords = append(unionWords, x...)
 
 	for _, searchWord := range y {
 		if containsStrNot(unionWords, searchWord) {
@@ -63,10 +76,19 @@ func union(x, y []string) []string {
 	return unionWords
 }
 
-// // 積集合
-// func intersection(x, y []string) []string {
+// 積集合
+func intersection(x, y []string) []string {
 
-// }
+	intersectionWord := make([]string, 0)
+
+	for _, searchWord := range x {
+		if containsStr(y, searchWord) {
+			intersectionWord = append(intersectionWord, searchWord)
+		}
+	}
+
+	return intersectionWord
+}
 
 // // 差集合
 // func diffrenceSet(x, y []string) []string {
@@ -78,8 +100,11 @@ func main() {
 	strArray1 := strings.Fields("paraparaparadise")
 	strArray2 := strings.Fields("paragraph")
 
-	x := wordBiGram(strArray1)
-	y := wordBiGram(strArray2)
+	// 文字bi-gram
+	x := removeDuplicate1(wordBiGram(strArray1))
+	y := removeDuplicate1(wordBiGram(strArray2))
 
-	fmt.Println(union(x, y))
+	// 和集合,積集合,差集合
+	fmt.Println("union", union(x, y))
+	fmt.Println("intersection", intersection(x, y))
 }
